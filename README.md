@@ -4,83 +4,55 @@ cosmic-sim
 A quick and dirty simulation of a cosmic ray shower written in C++.
 
 This is a small project I wrote for a class in grad school that simulates a cosmic ray shower initiated by a single
-high energy photon incident on the atmosphere.
+high energy photon incident on the atmosphere. I'm resurrecting this now as a learning tool to myself. The goal is
+to try re-implementing it in different languages particularly ones I have not tried before. I plan to do some
+performance comparisons as well.
 
-The Code
-========
+The Physics
+===========
 
-This was just written using standard C++. The core of it is a C++ class I made called Particle.cpp (and its
-header file Particle.h). I also used an open-source Mersenne Twister C++ class that I found to implement my random
-number generator. There are two different source files containing the executable part of the code, each
-one works slightly differently. They are explained below.
+TODO
 
-* Note that all of the executables were compiled with g++ on an x86 Linux machine. I did import a
-Linux/Unix specific header ("sys/time.h"), which allowed me to return the time since epoch in
-microseconds. That was used as part of the seed for the random number generators. What this means is
-that the source would need to be modified in order to compiled in Windows.
 
 * Note on units. All energies are in MeV. Distances are in units of radiation lengths. Also X = 0 is the
 top of the atmosphere and X = 28 is the surface.
 
-Build Instructions
-------------------
 
-c_mc.cpp
---------
+The Code
+========
 
-This first file does a single cosmic ray shower. The main function of c_mc.cpp takes three command
-line parameters:
+The current purpose of this project is to try my hand at implementing this simulation in many different
+langauges, mostly as a learning tool for myself. 
 
-* **eng\_init:** initial energy of incoming photon.
-
-* **meas:** position at which the shower is sampled (final positions of particles and final energies of
-particles that "range out" of the atmosphere can also be accessed directly).
-
-* **no\_dead:** -> true (1) prunes "dead" particles from the particle list printouts (does nothing to the particles
-themselves, only effects printing to the screen, the final positions of "dead" particles is still
-accessible).
-
-Example: *./c_mc.out 10000 22.4 0* -> runs a simulation of a 10 GeV initial photon being sampled at 22.4 radiation
-lengths from the top of the sky with full printing verbosity.
-
-The function prints out info on each particle at each step through the main loop to stdout. The program
-continues until all particles are "dead" or have reached the surface. The last set of outputs is the info on
-the state of the particles when they crossed that point (obviously it only includes particles that passed
-through the sampling point). Also counts the number of charged and uncharged particles at the sample
-position.
-
-Output format:
-
-* column 1: Internal particle number
-
-* column 2: Particle type -> 0 = photon, 1 = e+/e-
-
-* column 3: Particle energy (MeV)
-
-* column 4: Particle position (Rad Lengths)
-
-* column 5: Particle number of the particles parent particle
+* Note that all of the executables were compiled/run on an x86 Linux machines.
+I have not tested any of the versions under Windows, but the interpreted and
+JVM langauge versions should likely run with no problems. The versions that
 
 
-c_mc_np.cpp
------------
+Currently Implemented Versions
+------------------------------
 
-This file allows you to run multiple showers at one time, and suppresses most screen output.
-The main function of c_mc_np.cpp takes three parameters:
+ &lt;language&gt;: &lt;subdirectory&gt; &lt;description&gt;
 
-* **num\_runs:** number of showers to run
+* **C++:** &nbsp;&nbsp;&nbsp;&nbsp; cpp-orig &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The original C++ implementation of this code
+ 
 
-* **eng\_init:** initial energy of incoming photon.
+Implementation TO-DO List
+-------------------------
 
-* **meas:** position at which the shower is sampled
+In no particular order:
 
-The final output displays both the number of charged and the number neutral particles detected passing
-through the sample point averaged over the runs. It also estimates the errors based on the spread.
+* Java
+* Scala
+* Clojure
+* Python
+* Fortran
 
 
-
-MC Results: (Shower number = 10000)
+Example Results: (Shower number = 10000)
 ===================================
+
+These are some numbers given by the original C++ implementation of this simulation code.
 
 <table border=1>
   <tr>
@@ -108,3 +80,8 @@ measured in height from the surface.
 
 * These values are for charged particles
 
+
+Benchmarking
+============
+
+TODO
