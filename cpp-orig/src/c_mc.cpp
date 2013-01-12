@@ -1,6 +1,8 @@
 #include "Particle.hpp"
 
 using namespace std;
+using boost::mt19937;
+using boost::uniform_01;
 
 string dtostr(double num) {
   stringstream s;
@@ -8,6 +10,10 @@ string dtostr(double num) {
   return s.str();
 }// end dtostr
 
+double genRealOpen(mt19937 & gen) {
+  uniform_01<mt19937&> dist(gen);
+  return dist();
+}// end genRealOpen
 
 int main (int argc, char *argv[]) {
 
@@ -18,12 +24,9 @@ int main (int argc, char *argv[]) {
 
 
   timeval t_seed;
-  unsigned long seed_key[2];
   gettimeofday(&t_seed,NULL);
-  seed_key[0]=t_seed.tv_sec;
-  seed_key[1]=t_seed.tv_usec;
-  rnd.initArray(seed_key,2);//initializes random number gen with seed
-
+  mt19937 gen(t_seed.tv_usec);//initializes random number gen with seed
+  cout << genRealOpen(gen) << "  " << genRealOpen(gen) << endl;
   double eng_init = atof(argv[1]);
   double meas = atof(argv[2]);
   bool no_dead = false;
@@ -38,7 +41,7 @@ int main (int argc, char *argv[]) {
   vector<Particle*> p(0);
 
   p.push_back(NULL);
-  p.at(0) = new Particle(0,eng_init,0.0,meas,-1);
+  p.at(0) = new Particle(gen,0,eng_init,0.0,meas,-1);
   while (cont) {
     for(int i=0;i<p_num;i++) {
       if(p.at(i)->GetEng()>0){
@@ -46,25 +49,25 @@ int main (int argc, char *argv[]) {
 	prop_res=p.at(i)->Prop();
 	if(prop_res==0){
 	  p.push_back(NULL);
-	  p.back()=new Particle(0,temp_e-p.at(i)->GetEng(),
-					p.at(i)->GetPos(),meas,i);
+	  p.back()=new Particle(gen,0,temp_e-p.at(i)->GetEng(),
+                                p.at(i)->GetPos(),meas,i);
 	}//brem
 
 	if (prop_res==2){
-	  temp_rdm=rnd.genRealOpen();
+	  temp_rdm=genRealOpen(gen);
 	  p.push_back(NULL);
-	  p.back()=new Particle(1,temp_rdm*temp_e,
-					p.at(i)->GetPos(),meas,i);
+	  p.back()=new Particle(gen,1,temp_rdm*temp_e,
+                                p.at(i)->GetPos(),meas,i);
 	  p.push_back(NULL);
-	  p.back()=new Particle(1,(1-temp_rdm)*temp_e,
-					p.at(i)->GetPos(),meas,i);
+	  p.back()=new Particle(gen,1,(1-temp_rdm)*temp_e,
+                                p.at(i)->GetPos(),meas,i);
 	}// pair
 	
 	if (prop_res==3){
 	  
-	  temp_rdm=rnd.genRealOpen();
+	  temp_rdm=genRealOpen(gen);
 	  p.push_back(NULL);
-	  p.back()=new Particle(1,temp_e,p.at(i)->GetPos(),meas,i);
+	  p.back()=new Particle(gen,1,temp_e,p.at(i)->GetPos(),meas,i);
 	    
 	}// compton
       }

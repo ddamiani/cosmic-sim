@@ -7,14 +7,14 @@
 #include <cstdlib>
 #include <cmath>
 #include <vector>
-#include "MersenneTwister.hpp"
-
-extern MersenneTwister rnd;
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_01.hpp>
 
 class Particle {
  public :
-  Particle(); //null constructor
-  Particle(int par_type, double par_eng,
+  Particle(boost::mt19937 & gen); //null constructor
+  Particle(boost::mt19937 & gen,
+           int par_type, double par_eng,
 	   double par_pos, double par_samp1,
 	   int par_parent_id); //constructor
   ~Particle();
@@ -37,9 +37,12 @@ class Particle {
   bool samp1_pass; //flags true if the particle hasn't been sampled and was created before sample point
   static const double ENDP = 28;  //the surface
 
+  boost::mt19937 & m_gen;
+
   double MeanFree(double lambda);
   double BremFunc(double x);     //brem distgives value from brem dist
   double Brem();
+  double genRealOpen();
 };// end class Particle
 
 #endif

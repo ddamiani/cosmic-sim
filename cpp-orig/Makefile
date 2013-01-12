@@ -5,7 +5,7 @@ TARGET = target
 SRC_MAIN = $(SRC_DIR)/c_mc.cpp $(SRC_DIR)/c_mc_np.cpp
 OBJ_MAIN = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.o,$(SRC_MAIN))
 EXE = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.out,$(SRC_MAIN))
-SRC = $(SRC_DIR)/MersenneTwister.cpp $(SRC_DIR)/Particle.cpp
+SRC = $(SRC_DIR)/Particle.cpp
 OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.o,$(SRC))
 #SRC += $(SRC_MAIN)
 

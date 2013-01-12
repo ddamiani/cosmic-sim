@@ -1,8 +1,11 @@
 #include "Particle.hpp"
 
-MersenneTwister rnd;
+using boost::mt19937;
+using boost::uniform_01;
 
-Particle::Particle() {
+Particle::Particle(mt19937 & gen) :
+  m_gen(gen)
+{
   type=-1;
   eng=-1;
   pos=-1;
@@ -12,9 +15,12 @@ Particle::Particle() {
   samp1_pass=false;
 }
 
-Particle::Particle(int par_type, double par_eng,
+Particle::Particle(mt19937 & gen,
+                   int par_type, double par_eng,
 		   double par_pos, double par_samp1,
-		   int par_parent_id){
+		   int par_parent_id) : 
+  m_gen(gen)
+{
   type=par_type;
   eng=par_eng;
   pos=par_pos;
@@ -31,7 +37,7 @@ Particle::~Particle() {
 }// end Destructor
 
 double Particle::MeanFree(double lambda) {
-  return -lambda*log(1-rnd.genRealOpen());
+  return -lambda*log(1-genRealOpen());
 }// end MeanFree
 
 double Particle::BremFunc(double x) {
@@ -43,8 +49,8 @@ double Particle::Brem() {
   double func_val=-1,u=0,c=1,x=0;
   
   while(func_val<0) {
-    u=rnd.genRealOpen();
-    x=rnd.genRealOpen();
+    u=genRealOpen();
+    x=genRealOpen();
     if(u*c<BremFunc(x)) {
       func_val=x;
     }
@@ -154,3 +160,7 @@ int Particle::Prop() {
 
 }// end Prop
 
+double Particle::genRealOpen() {
+  uniform_01<mt19937&> dist(m_gen);
+  return dist();
+}// end genRealOpen

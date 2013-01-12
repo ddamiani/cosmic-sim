@@ -1,12 +1,19 @@
 #include "Particle.hpp"
 
 using namespace std;
+using boost::mt19937;
+using boost::uniform_01;
 
 string dtostr(double num) {
   stringstream s;
   s << num;
   return s.str();
 } // end string dtostr
+
+double genRealOpen(mt19937 & gen) {
+  uniform_01<mt19937&> dist(gen);
+  return dist();
+}// end genRealOpen
 
 double rms(vector<double> v){
   int s=v.size();
@@ -21,15 +28,7 @@ double rms(vector<double> v){
   return sqrt(sum/(double) s);
 } // end double rms
 
-void c_mc (double eng_init, double meas, int &num_c, int &num_n) {
-
-  //sets up random number generator
-  timeval t_seed;
-  unsigned long seed_key[2];
-  gettimeofday(&t_seed,NULL);
-  seed_key[0]=t_seed.tv_sec;
-  seed_key[1]=t_seed.tv_usec;
-  rnd.initArray(seed_key,2);//initializes random number gen with seed
+void c_mc (mt19937 & gen, double eng_init, double meas, int &num_c, int &num_n) {
 
   bool cont = true;
   int p_num=1,prop_res=-1;
@@ -38,7 +37,7 @@ void c_mc (double eng_init, double meas, int &num_c, int &num_n) {
   vector<Particle*> p(0);
 
   p.push_back(NULL);
-  p.at(0) = new Particle(0,eng_init,0.0,meas,-1);
+  p.at(0) = new Particle(gen,0,eng_init,0.0,meas,-1);
   while (cont) {
     for(int i=0;i<p_num;i++) {
       if(p.at(i)->GetEng()>0){
@@ -46,25 +45,25 @@ void c_mc (double eng_init, double meas, int &num_c, int &num_n) {
 	prop_res=p.at(i)->Prop();
 	if(prop_res==0){
 	  p.push_back(NULL);
-	  p.back()=new Particle(0,temp_e-p.at(i)->GetEng(),
-					p.at(i)->GetPos(),meas,i);
+	  p.back()=new Particle(gen,0,temp_e-p.at(i)->GetEng(),
+                                p.at(i)->GetPos(),meas,i);
 	}//brem
 
 	if (prop_res==2){
-	  temp_rdm=rnd.genRealOpen();
+	  temp_rdm=genRealOpen(gen);
 	  p.push_back(NULL);
-	  p.back()=new Particle(1,temp_rdm*temp_e,
+	  p.back()=new Particle(gen,1,temp_rdm*temp_e,
 					p.at(i)->GetPos(),meas,i);
 	  p.push_back(NULL);
-	  p.back()=new Particle(1,(1-temp_rdm)*temp_e,
+	  p.back()=new Particle(gen,1,(1-temp_rdm)*temp_e,
 					p.at(i)->GetPos(),meas,i);
 	}// pair
 	
 	if (prop_res==3){
 	  
-	  temp_rdm=rnd.genRealOpen();
+	  temp_rdm=genRealOpen(gen);
 	  p.push_back(NULL);
-	  p.back()=new Particle(1,temp_e,p.at(i)->GetPos(),meas,i);
+	  p.back()=new Particle(gen,1,temp_e,p.at(i)->GetPos(),meas,i);
 	    
 	}// compton
       }
@@ -103,6 +102,10 @@ int main (int argc, char *argv[]) {
     return 1;
   }// input par error check
 
+  timeval t_seed;
+  gettimeofday(&t_seed,NULL);
+  mt19937 gen(t_seed.tv_usec);//initializes random number gen with seed
+
   int num_runs=atoi(argv[1]);
   double eng_init=atof(argv[2]);
   double_t meas=atof(argv[3]);
@@ -113,7 +116,7 @@ int main (int argc, char *argv[]) {
   vector<double> val_dn(0);
 
   for(int i=0;i<num_runs;i++) {
-    c_mc(eng_init,meas,samp_val_c[i],samp_val_n[i]);
+    c_mc(gen,eng_init,meas,samp_val_c[i],samp_val_n[i]);
     val_dc.push_back((double) samp_val_c[i]);
     val_dn.push_back((double) samp_val_n[i]);
     sum_c+=(double) samp_val_c[i];
