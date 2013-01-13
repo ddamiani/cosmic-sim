@@ -9,16 +9,18 @@ is provided as part of boost. There are two different source files containing
 the executable part of the code, each one works slightly differently. They are
 explained below.
 
-* Note that all of the executables were compiled with g++ on an x86 Linux machine. I did import a
-Linux/Unix specific header ("sys/time.h"), which allowed me to return the time since epoch in
-microseconds. That was used as part of the seed for the random number generators. What this means is
-that the source would need to be modified in order to compiled in Windows.
-
-* Note on units. All energies are in MeV. Distances are in units of radiation lengths. Also X = 0 is the
-top of the atmosphere and X = 28 is the surface.
 
 Build Instructions
 ------------------
+
+The code itself can be built using make. Boost is also needed since this code relies on
+a random number generator provided by it. On a Linux machine installing g++ and the boost
+should be sufficient.
+
+Note that all of the executables were compiled with g++ on an x86 Linux machine. I did import a
+Linux/Unix specific header ("sys/time.h"), which allowed me to return the time since epoch in
+microseconds. That was used as part of the seed for the random number generators. What this means is
+that the source would need to be modified in order to compiled in Windows.
 
 c_mc.cpp
 --------
