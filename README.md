@@ -11,8 +11,24 @@ performance comparisons as well.
 The Physics
 ===========
 
-TODO
+The cosmic rays considered for this simulation are high-energy photons incident on the upper atmosphere.
+The only particles considered in this simulation are electrons and photons. Two interaction types were considered
+for photons: pair production and Compton scattering. For electrons energy loss via bremsstrahlung and ionization are
+considered. 
 
+A mean free path of ~1.29 radiation lengths is used for photons.
+In the simulation photons with an energy less than 10 MeV are not further simulated. They are assumed to
+lose all their energy via Compton scattering over a short distance (in terms of the distance scales of this simulation).
+Otherwise when photons interact they produce a pair of electrons.
+
+For electrons a mean free path of 0.28 radiation lengths is used. Electrons with an energy of less than 100 MeV are
+considered for the purposes of this simulation to lose all their remaining energy to ionization over 1 radiation length.
+Higher energy electrons that interact do so via bremsstrahlung, emitting a photon with a portion of the electrons
+original energy.
+
+The simulation itself does not take into account any lateral spread of the shower. It a primary purpose was
+to roughly simulate the depth into the atmosphere that a shower would penetrate and the particle multiplicities
+of the shower at various depths in atmosphere.
 
 * Note on units. All energies are in MeV. Distances are in units of radiation lengths. Also X = 0 is the
 top of the atmosphere and X = 28 is the surface.
@@ -22,11 +38,12 @@ The Code
 ========
 
 The current purpose of this project is to try my hand at implementing this simulation in many different
-langauges, mostly as a learning tool for myself. 
+languages, mostly as a learning tool for myself. The build instructions for the various versions are
+included in README files in their corresponding directories.
 
 * Note that all of the executables were compiled/run on an x86 Linux machines.
 I have not tested any of the versions under Windows, but the interpreted and
-JVM langauge versions should likely run with no problems. The versions that
+JVM language versions should likely run with no problems. The versions that
 
 
 Currently Implemented Versions
