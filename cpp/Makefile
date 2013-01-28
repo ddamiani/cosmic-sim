@@ -2,7 +2,7 @@ SRC_DIR = src
 INCLUDES = include
 TARGET = target
 
-SRC_MAIN = $(SRC_DIR)/cosmic.cpp
+SRC_MAIN = $(SRC_DIR)/cosmic-sim.cpp
 OBJ_MAIN = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.o,$(SRC_MAIN))
 EXE = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.out,$(SRC_MAIN))
 SRC = $(SRC_DIR)/Particle.cpp $(SRC_DIR)/RandomMT.cpp
