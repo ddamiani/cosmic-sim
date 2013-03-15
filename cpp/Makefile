@@ -5,7 +5,7 @@ TARGET = target
 SRC_MAIN = $(SRC_DIR)/cosmic-sim.cpp
 OBJ_MAIN = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.o,$(SRC_MAIN))
 EXE = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.out,$(SRC_MAIN))
-SRC = $(SRC_DIR)/Particle.cpp $(SRC_DIR)/RandomMT.cpp
+SRC = $(SRC_DIR)/Photon.cpp $(SRC_DIR)/Electron.cpp $(SRC_DIR)/Particle.cpp $(SRC_DIR)/ResultStore.cpp $(SRC_DIR)/RandomMT.cpp
 OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.o,$(SRC))
 #SRC += $(SRC_MAIN)
 
