@@ -64,6 +64,7 @@ In no particular order:
 * Clojure
 * Python
 * Fortran
+* Common Lisp
 
 
 Example Results: (Shower number = 10000)
