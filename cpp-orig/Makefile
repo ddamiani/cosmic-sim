@@ -1,29 +1,35 @@
 SRC_DIR = src
 INCLUDES = include
 TARGET = target
+CLEAN = clean
 
 SRC_MAIN = $(SRC_DIR)/c_mc.cpp $(SRC_DIR)/c_mc_np.cpp
-OBJ_MAIN = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.o,$(SRC_MAIN))
-EXE = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.out,$(SRC_MAIN))
-SRC = $(SRC_DIR)/Particle.cpp
-OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.o,$(SRC))
-#SRC += $(SRC_MAIN)
+SRC_NON = $(SRC_DIR)/Particle.cpp
+SRC = $(SRC_NON) $(SRC_MAIN)
+
+OBJ_NON = $(SRC_NON:$(SRC_DIR)/%.cpp=$(TARGET)/%.o)
+OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(TARGET)/%.o)
+
+DEPS = $(OBJ:.o=.d)
+EXE = $(SRC_MAIN:$(SRC_DIR)/%.cpp=$(TARGET)/%.out)
 
 CXXFLAGS = -I$(INCLUDES)
-#-MD -MP
 
-#-include $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.d,$(SRC))
+all: $(TARGET) $(OBJ) $(EXE)
 
-all: makedir $(OBJ) $(OBJ_MAIN) $(EXE)
-
-$(TARGET)/%.out: $(TARGET)/%.o $(OBJ)
-	$(CXX) $< $(OBJ) -o $@
+%.out: %.o $(OBJ_NON)
+	$(CXX) $^ -o $@
 
 $(TARGET)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) -MM -MT $@ $< -MF $(@:.o=.d)
 
-makedir:
-	mkdir -p $(TARGET)
+$(TARGET):
+	@mkdir -p $@
 
-clean:
-	rm -rf $(TARGET)
+$(CLEAN):
+	@rm -rf $(TARGET)
+
+.PHONY: all $(CLEAN)
+
+-include $(DEPS)
