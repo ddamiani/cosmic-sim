@@ -1,29 +1,32 @@
 SRC_DIR = src
 INCLUDES = include
 TARGET = target
+CLEAN = clean
+MKDIR = mkdir
 
 SRC_MAIN = $(SRC_DIR)/cosmic-sim.cpp
-OBJ_MAIN = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.o,$(SRC_MAIN))
-EXE = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.out,$(SRC_MAIN))
-SRC = $(SRC_DIR)/Photon.cpp $(SRC_DIR)/Electron.cpp $(SRC_DIR)/Particle.cpp $(SRC_DIR)/ResultStore.cpp $(SRC_DIR)/RandomMT.cpp
-OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.o,$(SRC))
-#SRC += $(SRC_MAIN)
+SRC = $(wildcard $(SRC_DIR)/*.cpp)
+OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(TARGET)/%.o)
+DEPS = $(SRC:$(SRC_DIR)/%.cpp=$(TARGET)/%.d)
+EXE = $(SRC_MAIN:$(SRC_DIR)/%.cpp=$(TARGET)/%.out)
 
 CXXFLAGS = -I$(INCLUDES)
-#-MD -MP
 
-#-include $(patsubst $(SRC_DIR)/%.cpp,$(TARGET)/%.d,$(SRC))
+all: $(MKDIR) $(OBJ) $(EXE)
 
-all: makedir $(OBJ) $(OBJ_MAIN) $(EXE)
-
-$(TARGET)/%.out: $(TARGET)/%.o $(OBJ)
-	$(CXX) $< $(OBJ) -o $@
+%.out: %.o $(OBJ)
+	$(CXX) $^ -o $@
 
 $(TARGET)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -MM -MT $@ $< -MF $(@:.o=.d)
 
-makedir:
-	mkdir -p $(TARGET)
+$(MKDIR):
+	@$(MKDIR) -p $(TARGET)
 
-clean:
-	rm -rf $(TARGET)
+$(CLEAN):
+	@rm -rf $(TARGET)
+
+.PHONY: $(CLEAN) $(MKDIR) all
+
+-include $(DEPS)
