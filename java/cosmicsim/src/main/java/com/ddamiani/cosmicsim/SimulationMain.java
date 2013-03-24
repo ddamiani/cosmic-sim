@@ -1,5 +1,8 @@
 package com.ddamiani.cosmicsim;
 
+import com.ddamiani.cosmicsim.particle.Particle;
+import com.ddamiani.cosmicsim.particle.Photon;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -8,19 +11,87 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
+import static java.lang.StrictMath.sqrt;
+
 /**
  * The basic command line interface to run the Java version of the cosmic ray sim
  */
 public final class SimulationMain {
+
+    /**
+     * Simple inner class for aggregating the results of multiple simulation runs.
+     */
+    protected static final class Aggregator {
+        private int mStep;
+        private double mMean;
+        private double mSumSquare;
+
+        public Aggregator() {
+            mStep = 0;
+            mMean = 0.0;
+            mSumSquare = 0.0;
+        }
+
+        public final void addStep(double stepValue) {
+            mStep += 1;
+
+            double diff = stepValue - mMean;
+            mMean += diff / mStep;
+            mSumSquare += diff * (stepValue - mMean);
+        }
+
+        public final int getCounts() {
+            return mStep;
+        }
+
+        public final double getMean() {
+            return mMean;
+        }
+
+        public final double getStdError() {
+            return sqrt(mSumSquare / ((mStep - 1) * mStep));
+        }
+    }
+
+    private static int printFrequency = 1000;
+
     private static void printUsage(Options options) {
         final String spacer = "************************************************************";
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("cosmic-sim [-h]", spacer, options, "", true);
     }
 
+    private static void printOutputLine(String header, double mean, double error) {
+        System.out.format(" %-8s %12.3f \u00B1 %.3f\n", header, mean, error);
+    }
+
     private static void runSimulations(int count, double energy, double position) {
         System.out.println(String.format("Running the simulation %d times with an initial photon energy of %.0f GeV", count, energy / 1000.));
         System.out.println(String.format("The shower will be sampled at %.2f radiation lengths from the top of the atmosphere.", position));
+
+        Aggregator totalAggregator = new Aggregator();
+        Aggregator neutralAggregator = new Aggregator();
+        Aggregator chargeAggregator = new Aggregator();
+
+        for (int i = 0; i < count; i++) {
+            ResultStore results = new ResultStore(position);
+
+            Particle initial = new Photon(energy, 0.0, null, results);
+            initial.propagate();
+
+            totalAggregator.addStep(results.getTotalNumParticles());
+            neutralAggregator.addStep(results.getNumNeutralParticles());
+            chargeAggregator.addStep(results.getNumChargedParticles());
+
+            if ((i + 1) % printFrequency == 0) {
+                System.out.format("Finished processing %d of %d steps so far.\n", i+1, count);
+            }
+        }
+
+        System.out.format("Average numbers of particles sampled at %.2f radiation lengths:\n", position);
+        printOutputLine("Charged:", chargeAggregator.getMean(), chargeAggregator.getStdError());
+        printOutputLine("Neutral:", neutralAggregator.getMean(), neutralAggregator.getStdError());
+        printOutputLine("Total:", totalAggregator.getMean(), totalAggregator.getStdError());
     }
 
     /**
@@ -76,6 +147,11 @@ public final class SimulationMain {
                 .withDescription("This option sets a specific seed for the simulation")
                 .withLongOpt("seed")
                 .create('s'));
+        mainOptions.addOption(OptionBuilder.withArgName("PRINT FREQUENCY")
+                .hasArg()
+                .withDescription("This option sets the frequency at which progress is reported")
+                .withLongOpt("print-freq")
+                .create('f'));
 
         return mainOptions;
     }
@@ -104,6 +180,10 @@ public final class SimulationMain {
             RandomNumberHelper.setSeed(Long.parseLong(commandLine.getOptionValue('s')));
         } else {
             RandomNumberHelper.setSeed(System.currentTimeMillis());
+        }
+
+        if (commandLine.hasOption('f')) {
+            printFrequency = Integer.parseInt(commandLine.getOptionValue('f'));
         }
 
         runSimulations(Integer.parseInt(commandLine.getOptionValue('c')),

@@ -1,8 +1,11 @@
 package com.ddamiani.cosmicsim;
 
+import com.ddamiani.cosmicsim.SimulationMain.Aggregator;
+
 import org.apache.commons.cli.ParseException;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -12,6 +15,7 @@ import static org.junit.Assert.fail;
  * All java classes must have many unit tests so they can be much with enterpiseness.
  */
 public class SimulationMainTest {
+    private static final double DELTA = 1e-15;
 
     @Test
     public void testHelp() throws ParseException {
@@ -108,5 +112,20 @@ public class SimulationMainTest {
         } catch (NumberFormatException e) {
             assertTrue(true);
         }
+    }
+
+    @Test
+    public void testAggregatorGetterValues() {
+        Aggregator agg = new Aggregator();
+        assertEquals("Test counter", 0, agg.getCounts());
+        assertEquals("Test mean", 0.0, agg.getMean(), DELTA);
+        assertEquals("Test error", Double.NaN, agg.getStdError(), DELTA);
+
+        agg.addStep(1.0);
+        agg.addStep(1.0);
+
+        assertEquals("Test counter", 2, agg.getCounts());
+        assertEquals("Test mean", 1.0, agg.getMean(), DELTA);
+        assertEquals("Test error", 0.0, agg.getStdError(), DELTA);
     }
 }

@@ -19,27 +19,27 @@ public final class ResultStore {
         mNumNeutral = 0;
     }
 
-    protected double getSamplingPoint() {
+    public double getSamplingPoint() {
         return mSamplePoint;
     }
 
-    protected int getTotalNumParticles() {
+    public int getTotalNumParticles() {
         return mNumCharged + mNumNeutral;
     }
 
-    protected int getNumChargedParticles() {
+    public int getNumChargedParticles() {
         return mNumCharged;
     }
 
-    protected int getNumNeutralParticles() {
+    public int getNumNeutralParticles() {
         return mNumNeutral;
     }
 
-    protected void incrementNumChargedParticles() {
+    public void incrementNumChargedParticles() {
         mNumCharged += 1;
     }
 
-    protected void incrementNumNeutralParticles() {
+    public void incrementNumNeutralParticles() {
         mNumNeutral += 1;
     }
 }

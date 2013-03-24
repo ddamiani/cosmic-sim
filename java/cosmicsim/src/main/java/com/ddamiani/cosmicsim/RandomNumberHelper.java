@@ -19,16 +19,16 @@ public final class RandomNumberHelper {
         return 1 - pow(x, 0.2);
     }
 
-    protected static void setSeed(long seed) {
+    public static void setSeed(long seed) {
         RANDOM_GENERATOR.setSeed(seed);
     }
 
-    protected static double meanFree(double lambda) {
+    public static double meanFree(double lambda) {
         return -lambda * log(1 - RANDOM_GENERATOR.nextDouble());
     }
 
-    protected static double brem() {
-        double func_val = -1, u = 0, c = 1, x = 0;
+    public static double brem() {
+        double func_val = -1, u, c = 1, x;
 
         while (func_val < 0) {
             u = RANDOM_GENERATOR.nextDouble();
@@ -40,7 +40,7 @@ public final class RandomNumberHelper {
         return func_val;
     }
 
-    protected static double genRealOpen() {
+    public static double genRealOpen() {
         return RANDOM_GENERATOR.nextDouble();
     }
 }
