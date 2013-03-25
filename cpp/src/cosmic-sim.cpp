@@ -9,25 +9,25 @@
 
 using namespace std;
 
-void print_usage() {
+inline void print_usage() {
   cout << "Usage ./cosmic_sim.out <initial_energy> <sampling_position> <number of runs> [seed]" << endl;
 }
 
-void print_line(string name, double value, double rms) {
+inline void print_line(string name, double value, double rms) {
   cout << left << setw(12) << name << value << " +/- " << rms << endl;
 }
 
-bool is_help_param(string param) {
+inline bool is_help_param(string param) {
   return param == "-h" || param == "--help";
 }
 
-void agg_step(int step, double step_val, double & mean, double & sum2) {
+inline void agg_step(int step, double step_val, double & mean, double & sum2) {
   double diff = step_val - mean;
   mean += diff / step;
   sum2 += diff * (step_val - mean);
 }
 
-double get_std_err(int num, double sum2) {
+inline double get_std_err(int num, double sum2) {
   // sig / sqrt(n) and sig2 = sum2 / (n-1) 
   return sqrt(sum2 / ((num -1) * num) );
 }
