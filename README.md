@@ -60,7 +60,6 @@ Implementation TO-DO List
 
 In no particular order:
 
-* Java
 * Scala
 * Clojure
 * Python
