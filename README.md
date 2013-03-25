@@ -44,6 +44,7 @@ included in README files in their corresponding directories.
 * Note that all of the executables were compiled/run on an x86 Linux machines.
 I have not tested any of the versions under Windows, but the interpreted and
 JVM language versions should likely run with no problems. The versions that
+compile to native machine code may need some adapting.
 
 
 Currently Implemented Versions
