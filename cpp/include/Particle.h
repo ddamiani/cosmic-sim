@@ -54,4 +54,24 @@ class Particle {
   DecayType m_decay;
 };
 
+inline double Particle::GetEnergy() const {
+  return m_energy;
+}
+
+inline void Particle::SetEnergy(double energy) {
+  m_energy = energy;
+}
+
+inline double Particle::GetPosition() const {
+  return m_position;
+}
+
+inline void Particle::SetPosition(double position) {
+  m_position = position;
+}
+
+inline Particle::DecayType Particle::GetDecayType() const {
+  return m_decay;
+}
+
 #endif

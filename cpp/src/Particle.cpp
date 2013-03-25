@@ -30,25 +30,6 @@ Particle::~Particle() {
   }
 }
 
-double Particle::GetEnergy() const {
-  return m_energy;
-}
-void Particle::SetEnergy(double energy) {
-  m_energy = energy;
-}
-
-double Particle::GetPosition() const {
-  return m_position;
-}
-
-void Particle::SetPosition(double position) {
-  m_position = position;
-}
-
-Particle::DecayType Particle::GetDecayType() const {
-  return m_decay;
-}
-
 void Particle::Propagate() {
   m_decay = TerminalDecay();
 
