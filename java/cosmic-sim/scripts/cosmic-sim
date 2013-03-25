@@ -1,0 +1,15 @@
+#!/bin/bash
+# A wrapper script for executing the jar
+
+cd $(dirname $0)
+
+JAR_DIR="../target"
+JAR_PATTERN='cosmic-sim-*-jar-with-dependencies.jar'
+JAR_NAME="$(ls -t ${JAR_DIR}/${JAR_PATTERN} | head -n 1)"
+
+if [ $? -ne 0 -o ! -f "${JAR_NAME}" ]; then
+    echo "Cannot find jar file to run!"
+    exit 1
+fi
+
+java -jar "${JAR_NAME}" $@
