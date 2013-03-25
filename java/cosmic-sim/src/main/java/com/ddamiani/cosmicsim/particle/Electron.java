@@ -24,7 +24,7 @@ public final class Electron extends Particle {
     }
 
     protected final DecayType decay() {
-        double bremEnergy = RandomNumberHelper.brem();
+        final double bremEnergy = RandomNumberHelper.brem();
 
         mChildOne = new Electron(mEnergy * (1 - bremEnergy),
                 mPosition,

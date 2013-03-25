@@ -24,7 +24,7 @@ public final class Photon extends Particle {
     }
 
     protected final DecayType decay() {
-        double pairFraction = RandomNumberHelper.genRealOpen();
+        final double pairFraction = RandomNumberHelper.genRealOpen();
 
         mChildOne = new Electron(mEnergy * (1 - pairFraction),
                 mPosition,
