@@ -17,7 +17,7 @@ installed (and obviously a compatible version of the JDK). Maven handles all the
 the externally dependencies which are in the central Maven repository. Does mean you needs an
 Internet connection to build though. Ah Maven...
 
-To build the package simply run (from the cosmic-sim dir):
+To build the package simply run (from the directory containing the *pom.xml* file):
 
 ```
 mvn package
