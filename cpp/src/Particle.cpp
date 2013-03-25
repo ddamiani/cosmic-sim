@@ -73,7 +73,7 @@ void Particle::Propagate() {
 void Particle::CheckPositionResult(double new_position) {
   // If there is a results object see if we should write to it
   if(m_results) {
-    int sampling_point = m_results->GetSamplingPoint();
+    double sampling_point = m_results->GetSamplingPoint();
     if(m_position < sampling_point && new_position >= sampling_point) {
       CountResult();
     }

@@ -19,5 +19,5 @@ void Aggregator::AggStep(double step_value) {
 }
 
 double Aggregator::GetStdError() const {
-  return sqrt(m_sum_squares / (double) ((m_step - 1) * m_step));
+  return sqrt(m_sum_squares / ((m_step - 1) * m_step));
 }

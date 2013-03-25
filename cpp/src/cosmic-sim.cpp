@@ -61,8 +61,6 @@ int main (int argc, char *argv[]) {
   Aggregator* chargedAgg = new Aggregator();
 
   for(int i=0; i<counts;++i) {
-    ResultStore* results = new ResultStore(position);
-
     initial = new Photon(energy, 0.0, NULL, results);
     initial->Propagate();
 
@@ -70,8 +68,8 @@ int main (int argc, char *argv[]) {
     delete initial; initial = NULL;
 
     totAgg->AggStep(results->GetTotalNumParticles());
-    neutralAgg->AggStep(results->GetNumChargedParticles());
-    chargedAgg->AggStep(results->GetNumNeutralParticles());
+    neutralAgg->AggStep(results->GetNumNeutralParticles());
+    chargedAgg->AggStep(results->GetNumChargedParticles());
 
     results->ResetCounts();
 

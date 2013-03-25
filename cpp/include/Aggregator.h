@@ -15,8 +15,8 @@ class Aggregator {
  private:
 
   int m_step;
-  int m_mean;
-  int m_sum_squares;
+  double m_mean;
+  double m_sum_squares;
 
 };
 
