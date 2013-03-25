@@ -9,11 +9,11 @@ public final class ResultStore {
     private int mNumCharged;
     private int mNumNeutral;
 
-    protected ResultStore() {
+    public ResultStore() {
         this(DEFAULT_SAMPLE_POINT);
     }
 
-    protected ResultStore(double samplingPoint) {
+    public ResultStore(double samplingPoint) {
         mSamplePoint = samplingPoint;
         mNumCharged = 0;
         mNumNeutral = 0;

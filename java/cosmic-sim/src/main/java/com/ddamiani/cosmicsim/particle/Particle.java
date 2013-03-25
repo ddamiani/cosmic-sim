@@ -50,6 +50,9 @@ public abstract class Particle {
 
     protected abstract void countResult();
 
+    public final DecayType getDecayType() {
+        return mDecay;
+    }
 
     public final double getEnergy() {
         return mEnergy;
@@ -113,7 +116,7 @@ public abstract class Particle {
         }
     }
 
-    private void checkPositionResult(double newPosition) {
+    protected final void checkPositionResult(double newPosition) {
         // If there is a results object see if we should write to it
         if (mResults != null) {
             double samplingPoint = mResults.getSamplingPoint();
