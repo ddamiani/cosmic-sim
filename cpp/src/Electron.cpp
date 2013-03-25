@@ -4,26 +4,16 @@
 #include "RandomMT.h"
 #include "ResultStore.h"
 
-Electron::Electron() :
-  Particle()
-{}
-
-Electron::Electron(double energy, double position, Particle* parent, ResultStore *results) :
-  Particle(energy, position, parent, results)
+Electron::Electron(double energy, double position,
+                   Particle* parent, ResultStore *results) :
+  Particle(energy, position, ELECTRON_RAD_LENGTH,
+           ELECTRON_TERM_DECAY_LENGTH, parent, results)
 {}
 
 Electron::~Electron() {}
 
-double Electron::GetRadLength() const {
-  return ELECTRON_RAD_LENGTH;
-}
-
-double Electron::GetTerminalDist() const {
-  return ELECTRON_TERM_DECAY_LENGTH;
-}
-
 Particle::DecayType Electron::TerminalDecay() const {
-  if(GetEnergy() < ELECTRON_TERM_DECAY_ENERGY) {
+  if(m_energy < ELECTRON_TERM_DECAY_ENERGY) {
     return Particle::IONIZATION;
   }
 
@@ -33,13 +23,13 @@ Particle::DecayType Electron::TerminalDecay() const {
 Particle::DecayType Electron::Decay() {
   double brem_energy = RandomMT::Brem();
 
-  m_child_1 = new Electron(GetEnergy() * (1 - brem_energy),
-                           GetPosition(),
+  m_child_1 = new Electron(m_energy * (1 - brem_energy),
+                           m_position,
                            this,
                            m_results);
 
-  m_child_2 = new Photon(GetEnergy() * brem_energy,
-                         GetPosition(),
+  m_child_2 = new Photon(m_energy * brem_energy,
+                         m_position,
                          this,
                          m_results);
 

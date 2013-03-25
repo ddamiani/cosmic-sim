@@ -6,13 +6,10 @@
 class Electron : public Particle {
  public:
 
-  Electron();
   Electron(double energy, double position, Particle* parent, ResultStore* results);
   virtual ~Electron();
 
  protected:
-   virtual double GetRadLength() const;
-   virtual double GetTerminalDist() const;
    virtual Particle::DecayType TerminalDecay() const;
    virtual Particle::DecayType Decay();
    virtual void CountResult();

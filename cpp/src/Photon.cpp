@@ -4,26 +4,16 @@
 #include "RandomMT.h"
 #include "ResultStore.h"
 
-Photon::Photon() :
-  Particle()
-{}
-
-Photon::Photon(double energy, double position, Particle* parent, ResultStore *results) :
-  Particle(energy, position, parent, results)
+Photon::Photon(double energy, double position,
+               Particle* parent, ResultStore *results) :
+  Particle(energy, position, PHOTON_RAD_LENGTH,
+           PHOTON_TERM_DECAY_LENGTH, parent, results)
 {}
 
 Photon::~Photon() {}
 
-double Photon::GetRadLength() const {
-  return PHOTON_RAD_LENGTH;
-}
-
-double Photon::GetTerminalDist() const {
-  return PHOTON_TERM_DECAY_LENGTH;
-}
-
 Particle::DecayType Photon::TerminalDecay() const {
-  if(GetEnergy() < PHOTON_TERM_DECAY_ENERGY) {
+  if(m_energy < PHOTON_TERM_DECAY_ENERGY) {
     return Particle::COMPTON;
   }
 
@@ -33,13 +23,13 @@ Particle::DecayType Photon::TerminalDecay() const {
 Particle::DecayType Photon::Decay() {
   double pair_fraction = RandomMT::GenRealOpen();
 
-  m_child_1 = new Electron(GetEnergy() * (1 - pair_fraction),
-                           GetPosition(),
+  m_child_1 = new Electron(m_energy * (1 - pair_fraction),
+                           m_position,
                            this,
                            m_results);
 
-  m_child_2 = new Electron(GetEnergy() * pair_fraction,
-                           GetPosition(),
+  m_child_2 = new Electron(m_energy * pair_fraction,
+                           m_position,
                            this,
                            m_results);
 

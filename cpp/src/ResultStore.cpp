@@ -37,3 +37,8 @@ void ResultStore::IncrementNumChargedParticles() {
 void ResultStore::IncrementNumNeutralParticles() {
   m_num_neutral++;
 }
+
+void ResultStore::ResetCounts() {
+  m_num_charged = 0;
+  m_num_neutral = 0;
+}

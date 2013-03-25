@@ -16,6 +16,8 @@ class ResultStore {
   void IncrementNumChargedParticles();
   void IncrementNumNeutralParticles();
 
+  void ResetCounts();
+
  private:
 
   static const double DEFAULT_SAMPLE_POINT = 28.0;

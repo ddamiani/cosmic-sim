@@ -5,19 +5,12 @@
 
 #include <cstddef>
 
-Particle::Particle() :
-  m_energy(-1.),
-  m_position(-1.),
-  m_decay(UNDECAYED),
-  m_parent(NULL),
-  m_child_1(NULL),
-  m_child_2(NULL),
-  m_results(NULL)
-{}
-
-Particle::Particle(double energy, double position, Particle* parent, ResultStore* results) :
+Particle::Particle(double energy, double position, double rad_length, double term_dist,
+                   Particle* parent, ResultStore* results) :
   m_energy(energy),
   m_position(position),
+  m_rad_length(rad_length),
+  m_term_dist(term_dist),
   m_decay(UNDECAYED),
   m_parent(parent),
   m_child_1(NULL),
@@ -52,11 +45,15 @@ void Particle::SetPosition(double position) {
   m_position = position;
 }
 
+Particle::DecayType Particle::GetDecayType() const {
+  return m_decay;
+}
+
 void Particle::Propagate() {
   m_decay = TerminalDecay();
 
   if(m_decay != UNDECAYED) {
-    double final_position = GetTerminalDist() + m_position;
+    double final_position = m_term_dist + m_position;
     if(final_position < END_POSITION) {
       CheckPositionResult(final_position);
       m_position = final_position;
@@ -69,7 +66,7 @@ void Particle::Propagate() {
     return ;
   }
 
-  double new_position = RandomMT::MeanFree(GetRadLength()) + m_position;
+  double new_position = RandomMT::MeanFree(m_rad_length) + m_position;
   
   if(new_position < END_POSITION) {
     CheckPositionResult(new_position);
