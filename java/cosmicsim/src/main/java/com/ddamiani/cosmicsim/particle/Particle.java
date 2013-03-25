@@ -23,13 +23,13 @@ public abstract class Particle {
 
     protected double mEnergy;
     protected double mPosition;
-    protected double mRadiationLength;
-    protected double mTerminalDistance;
+    protected final double mRadiationLength;
+    protected final double mTerminalDistance;
     protected DecayType mDecay;
-    protected Particle mParent;
+    protected final Particle mParent;
     protected Particle mChildOne;
     protected Particle mChildTwo;
-    protected ResultStore mResults;
+    protected final ResultStore mResults;
 
     protected Particle(double energy, double position, double radiationLength, double terminalDistance,
             Particle parent, ResultStore results) {

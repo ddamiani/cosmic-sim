@@ -11,8 +11,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
-import static java.lang.StrictMath.sqrt;
-
 /**
  * The basic command line interface to run the Java version of the cosmic ray sim
  */
@@ -49,7 +47,7 @@ public final class SimulationMain {
         }
 
         public final double getStdError() {
-            return sqrt(mSumSquare / ((mStep - 1) * mStep));
+            return StrictMath.sqrt(mSumSquare / ((mStep - 1) * mStep));
         }
     }
 
@@ -57,7 +55,7 @@ public final class SimulationMain {
 
     private static void printUsage(Options options) {
         final String spacer = "************************************************************";
-        HelpFormatter formatter = new HelpFormatter();
+        final HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("cosmic-sim [-h]", spacer, options, "", true);
     }
 
@@ -69,22 +67,26 @@ public final class SimulationMain {
         System.out.println(String.format("Running the simulation %d times with an initial photon energy of %.0f GeV", count, energy / 1000.));
         System.out.println(String.format("The shower will be sampled at %.2f radiation lengths from the top of the atmosphere.", position));
 
-        Aggregator totalAggregator = new Aggregator();
-        Aggregator neutralAggregator = new Aggregator();
-        Aggregator chargeAggregator = new Aggregator();
+        final Aggregator totalAggregator = new Aggregator();
+        final Aggregator neutralAggregator = new Aggregator();
+        final Aggregator chargeAggregator = new Aggregator();
+        final ResultStore results = new ResultStore(position);
+
+        final String progressStatus = "Finished processing %d of %d steps so far.\n";
 
         for (int i = 0; i < count; i++) {
-            ResultStore results = new ResultStore(position);
-
-            Particle initial = new Photon(energy, 0.0, null, results);
+            final Particle initial = new Photon(energy, 0.0, null, results);
             initial.propagate();
 
             totalAggregator.addStep(results.getTotalNumParticles());
             neutralAggregator.addStep(results.getNumNeutralParticles());
             chargeAggregator.addStep(results.getNumChargedParticles());
 
+            //Reset the result counters to zero
+            results.resetCounts();
+
             if ((i + 1) % printFrequency == 0) {
-                System.out.format("Finished processing %d of %d steps so far.\n", i+1, count);
+                System.out.format(progressStatus, i + 1, count);
             }
         }
 
@@ -104,7 +106,7 @@ public final class SimulationMain {
      */
     @SuppressWarnings("static-access")
     private static Options getHelpOpts() {
-        Options helpOptions = new Options();
+        final Options helpOptions = new Options();
         helpOptions.addOption(OptionBuilder
                 .withDescription("Displays help information")
                 .withLongOpt("help")
@@ -123,7 +125,7 @@ public final class SimulationMain {
      */
     @SuppressWarnings("static-access")
     private static Options getMainOpts() {
-        Options mainOptions = new Options();
+        final Options mainOptions = new Options();
         mainOptions.addOption(OptionBuilder.withArgName("ENERGY")
                 .isRequired(true)
                 .hasArg()
@@ -163,11 +165,10 @@ public final class SimulationMain {
      */
     public static void cliParse(String... args) throws ParseException {
 
-        Options helpOptions = getHelpOpts();
+        final Options helpOptions = getHelpOpts();
+        final Options mainOptions = getMainOpts();
 
-        Options mainOptions = getMainOpts();
-
-        CommandLineParser commandLineParser = new PosixParser();
+        final CommandLineParser commandLineParser = new PosixParser();
         CommandLine commandLine = commandLineParser.parse(helpOptions, args, true);
         if (commandLine.hasOption('h')) {
             printUsage(mainOptions);

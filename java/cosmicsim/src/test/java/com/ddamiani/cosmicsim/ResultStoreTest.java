@@ -32,6 +32,28 @@ public class ResultStoreTest {
     }
 
     @Test
+    public void testCounterReset() {
+        final int numCharged = 5;
+        final int numNeutral = 10;
+
+        for (int i = 0; i < numCharged; i++) {
+            mDefaultResult.incrementNumChargedParticles();
+        }
+
+        for (int i = 0; i < numNeutral; i++) {
+            mDefaultResult.incrementNumNeutralParticles();
+        }
+
+        assertEquals("Check that the charged particle count is set", numCharged, mDefaultResult.getNumChargedParticles());
+        assertEquals("Check that the neutral particle count is set", numNeutral, mDefaultResult.getNumNeutralParticles());
+
+        mDefaultResult.resetCounts();
+
+        assertEquals("Check that the charged particle count is reset", 0, mDefaultResult.getNumChargedParticles());
+        assertEquals("Check that the neutral particle count is reset", 0, mDefaultResult.getNumNeutralParticles());
+    }
+
+    @Test
     public void testInitialCounerValues() {
         assertEquals("Test the total counter", 0, mDefaultResult.getTotalNumParticles());
         assertEquals("Test the neutral counter", 0, mDefaultResult.getNumChargedParticles());

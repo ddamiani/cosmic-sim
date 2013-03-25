@@ -3,9 +3,6 @@ package com.ddamiani.cosmicsim;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
 
-import static java.lang.StrictMath.log;
-import static java.lang.StrictMath.pow;
-
 /**
  * Helper Class for handling the generation of pseudo random numbers.
  * <p/>
@@ -16,7 +13,7 @@ public final class RandomNumberHelper {
     private static final RandomGenerator RANDOM_GENERATOR = new MersenneTwister();
 
     private static double bremFunc(double x) {
-        return 1 - pow(x, 0.2);
+        return 1 - StrictMath.pow(x, 0.2);
     }
 
     public static void setSeed(long seed) {
@@ -24,7 +21,7 @@ public final class RandomNumberHelper {
     }
 
     public static double meanFree(double lambda) {
-        return -lambda * log(1 - RANDOM_GENERATOR.nextDouble());
+        return -lambda * StrictMath.log(1 - RANDOM_GENERATOR.nextDouble());
     }
 
     public static double brem() {

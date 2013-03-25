@@ -3,6 +3,7 @@ package com.ddamiani.cosmicsim;
 import com.ddamiani.cosmicsim.SimulationMain.Aggregator;
 
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.math3.stat.StatUtils;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -116,7 +117,7 @@ public class SimulationMainTest {
 
     @Test
     public void testAggregatorGetterValues() {
-        Aggregator agg = new Aggregator();
+        final Aggregator agg = new Aggregator();
         assertEquals("Test counter", 0, agg.getCounts());
         assertEquals("Test mean", 0.0, agg.getMean(), DELTA);
         assertEquals("Test error", Double.NaN, agg.getStdError(), DELTA);
@@ -127,5 +128,21 @@ public class SimulationMainTest {
         assertEquals("Test counter", 2, agg.getCounts());
         assertEquals("Test mean", 1.0, agg.getMean(), DELTA);
         assertEquals("Test error", 0.0, agg.getStdError(), DELTA);
+    }
+
+    @Test
+    public void testAggregationAlgorithm() {
+        final double[] values = {1.0, 2.4, 4.1, 0.1, 2.3, 2.2, 1.8};
+        final double expectedMean = StatUtils.mean(values);
+        final double expectedError = StrictMath.sqrt(StatUtils.variance(values) / values.length);
+        final Aggregator agg = new Aggregator();
+
+        for (double value : values) {
+            agg.addStep(value);
+        }
+
+        assertEquals("Test the number of steps", values.length, agg.getCounts());
+        assertEquals("Test the mean", expectedMean, agg.getMean(), DELTA);
+        assertEquals("Test the error", expectedError, agg.getStdError(), DELTA);
     }
 }
