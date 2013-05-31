@@ -15,7 +15,7 @@ inline void print_usage() {
 }
 
 inline void print_line(string name, double value, double rms) {
-  cout << left << setw(12) << name << value << " +/- " << rms << endl;
+  cout << left << setw(12) << name << value << " \u00B1 " << rms << endl;
 }
 
 inline bool is_help_param(string param) {
