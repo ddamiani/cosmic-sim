@@ -2,13 +2,11 @@
 
 # default to floating point division
 from __future__ import division
-
-import argparse
-import errno
+from argparse import ArgumentParser
 
 
 def get_args():
-    parser = argparse.ArgumentParser(description='Command line parameters for the cosmic ray simulation')
+    parser = ArgumentParser(description='Command line parameters for the cosmic ray simulation')
     parser.add_argument('ph_energy', metavar='PHOTON_ENERGY', type=float,
                         help='the initial energy of the incoming cosmic ray (in MeV)')
     parser.add_argument('sample_position', metavar='PHOTON_ENERGY', type=float,
@@ -22,18 +20,11 @@ def get_args():
     
     return parser.parse_args()
 
+
 def main():
 
     args = get_args()
-
-if __name__ == "__main__":
     try:
-        main()
-    except IOError, err:
-        if err.errno == errno.EPIPE:
-            pass
-        else:
-            raise
+        print 'I ran'
     except KeyboardInterrupt:
         pass
-
