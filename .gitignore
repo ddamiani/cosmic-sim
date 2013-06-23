@@ -1,2 +1,7 @@
+# General ignores
 *~
 target/
+# Python ignores
+*.pyc
+*-env/
+*.egg-info/
