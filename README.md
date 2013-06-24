@@ -74,6 +74,14 @@ Example Results: (Shower number = 10000)
 
 These are some numbers given by the original C++ implementation of this simulation code.
 
+| Energy (GeV) | Shower Max (RL(km)) | Particles at S\_Max | Num Part at 22.4 RL (4km) |
+|--------------|:-------------------:|:-------------------:|:-------------------------:|
+| 10           |  5.75 RL (15.9km)   |   52.15&plusmn;0.19 |   0.06&plusmn;0.01        |
+| 30           |  7 RL (15km)        |  143.34&plusmn;0.41 |   0.43&plusmn;0.02        |
+| 100          |  8 RL (14.3km)      |  438.07&plusmn;1.11 |   4.08&plusmn;0.12        |
+| 300          |  9.5 RL (13.2km)    | 1224&plusmn;2.5     |  27.20&plusmn;0.51        |
+| 1000         | 10.5 RL (12.5km)    | 3846&plusmn;7.4     | 190.2&plusmn;2.5          |
+
 <table border=1>
   <tr>
     <th>Energy (GeV)</th><th>Shower Max (RL(km))</th><th>Particles at S\_Max</th><th>Num Part at 22.4 RL (4km)</th>
