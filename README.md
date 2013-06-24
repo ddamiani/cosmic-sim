@@ -52,10 +52,10 @@ Currently Implemented Versions
 
  &lt;language&gt;: &lt;subdirectory&gt; &lt;description&gt;
 
-* **C++:**    &emsp;&ensp; cpp-orig &emsp;&emsp;&emsp; The original C++ implementation of this code
-* **C++:**    &emsp;&ensp; cpp      &emsp;&emsp;&emsp;&emsp;&emsp; The current C++ implementation of this code
-* **Java:**   &emsp;       java     &emsp;&emsp;&emsp;&emsp;&emsp; The current Java implementation of this code
-* **Python:** &emsp;       python   &emsp;&emsp;&emsp;&emsp;&emsp; The current Python implementation of this code
+* **C++:**    &emsp;&emsp;&ensp;  cpp-orig &emsp;&emsp;&emsp; The original C++ implementation of this code
+* **C++:**    &emsp;&emsp;&ensp;  cpp      &emsp;&emsp;&emsp;&emsp;&emsp;&ensp; The current C++ implementation of this code
+* **Java:**   &emsp;&emsp;&ensp;  java     &emsp;&emsp;&emsp;&emsp;&emsp;&ensp; The current Java implementation of this code
+* **Python:** &emsp;              python   &emsp;&emsp;&emsp;&emsp; The current Python implementation of this code
 
 Implementation TO-DO List
 -------------------------
