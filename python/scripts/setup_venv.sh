@@ -34,5 +34,5 @@ cd -- "${BASE_DIR}"
 virtualenv "${ENV_NAME}"
 source "${ENV_NAME}/bin/activate"
 # install pylint and pep8 in venv
-pip install pep8 pylint
+pip install pep8 pylint nose
 python setup.py "${SETUP_CMD}"

@@ -4,9 +4,11 @@ BASE_DIR="$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/../src")"
 PACKAGES="cosmicsim"
 STATUS=0
 
-chk_cmd() {
-    if [ $1 -ne 0 ]; then
-        STATUS=$((${STATUS} + 1))
+exit_msg() {
+    if [ $? -eq 0 ]; then
+        echo "All tests succeeded."
+    else
+        echo "Exiting on test failures."
     fi
 }
 
@@ -22,12 +24,18 @@ if ! hash pylint 2>/dev/null; then
     exit 1
 fi
 
+# test if nose exists
+if ! hash nosetests 2>/dev/null; then
+    echo "nosetests is not on the path!"
+    exit 1
+fi
+
 # Run all the tests
+trap exit_msg EXIT
 set -e
 for package in ${PACKAGES}
 do
     pep8 --max-line-length=120 "${BASE_DIR}/${package}"
     pylint "${BASE_DIR}/${package}"
+    nosetests "${BASE_DIR}/${package}"
 done
-
-echo "All tests succeeded."
