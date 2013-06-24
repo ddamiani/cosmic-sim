@@ -11,9 +11,9 @@ else
 fi
 
 # check if virtualenv is installed
-hash virtualenv 2>/dev/null
-if [ $? -ne 0 ]; then
-    echo "here"
+if ! hash virtualenv 2>/dev/null; then
+    echo "Virtualenv is not installed!"
+    exit 1
 fi
 
 # check if there is a valid python project
@@ -30,6 +30,9 @@ fi
 
 # setup the virtualenv and install the package
 set -e
+cd -- "${BASE_DIR}"
 virtualenv "${ENV_NAME}"
 source "${ENV_NAME}/bin/activate"
+# install pylint and pep8 in venv
+pip install pep8 pylint
 python setup.py "${SETUP_CMD}"
