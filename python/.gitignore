@@ -1,0 +1,7 @@
+# Python stuff
+*.pyc
+*.egg-info/
+# Virtualenv stuff
+.Python
+venv/
+.venv/

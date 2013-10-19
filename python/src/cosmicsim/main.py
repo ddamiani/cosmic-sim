@@ -9,9 +9,9 @@ from cosmicsim import __version__
 
 
 def get_args():
-    '''
+    """
     Parses the command line parameters using argparse
-    '''
+    """
 
     parser = ArgumentParser(
         description='A quick and dirty simulation of a cosmic ray shower.'
@@ -21,7 +21,7 @@ def get_args():
         'ph_energy',
         metavar='ENERGY',
         type=float,
-        help='initial energy of the incoming cosmic ray photon (in MeV)'
+        help='initial energy of the cosmic ray photon initiating the shower (in MeV).'
     )
 
     parser.add_argument(
@@ -29,13 +29,13 @@ def get_args():
         metavar='POSITION',
         type=float,
         help='position from the top of the atmosphere at which the shower '
-             'is sampled (in radiation lengths)'
+             'is sampled (in radiation lengths).'
     )
     parser.add_argument(
         'sim_counts',
         metavar='COUNT',
         type=int,
-        help='number of times to run the cosmic ray shower simulation'
+        help='number of times to run the cosmic ray shower simulation.'
     )
 
     parser.add_argument(
@@ -43,8 +43,8 @@ def get_args():
         '--seed',
         metavar='SEED',
         type=int,
-        help='fixes the seed used by the random number generator to the value '
-             'specified (normally uses the time at start up)'
+        help='fix the seed of the random number generator to the value '
+             'specified (defaults to the timestamp at up).'
     )
 
     parser.add_argument(
@@ -53,7 +53,7 @@ def get_args():
         metavar='PRINT_FREQUENCY',
         type=int,
         default=1000,
-        help='sets the frequency at which progress is reported (default: 1000)'
+        help='Sets the frequency at which progress is reported (default: 1000).'
     )
 
     parser.add_argument(
@@ -71,4 +71,7 @@ def main():
     try:
         print 'I ran'
     except KeyboardInterrupt:
-        pass
+        return 1
+
+if __name__ == '__main__':
+    main()
