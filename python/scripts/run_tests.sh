@@ -1,7 +1,7 @@
 #!/bin/bash
 # Runs pep8, pylint, and unittests
-BASE_DIR="$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/../src")"
-PACKAGES="cosmicsim"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)"
+CONFIG_FILE="${SCRIPT_DIR}/config_venv.sh"
 STATUS=0
 
 exit_msg() {
@@ -11,6 +11,26 @@ exit_msg() {
         echo "Exiting on test failures."
     fi
 }
+
+# Load config info
+if [ -f "${CONFIG_FILE}" ]; then
+    source "${CONFIG_FILE}"
+else
+    echo "Missing config file: ${CONFIG_FILE}"
+    exit 1
+fi
+
+# Activate the virtualenv if one isn't active
+if [ -z "${VIRTUAL_ENV}" ]; then
+    if [ -d "${ENV_NAME}" ]; then
+        echo -n "Activating the virtual environment... "
+        source "${ENV_NAME}/bin/activate"
+        echo "done"
+    else
+        echo "No virtualenv to activate!"
+        exit 1
+    fi
+fi
 
 # test if pep8 exists
 if ! hash pep8 2>/dev/null; then
@@ -35,7 +55,7 @@ trap exit_msg EXIT
 set -e
 for package in ${PACKAGES}
 do
-    pep8 --max-line-length=120 "${BASE_DIR}/${package}"
-    pylint "${BASE_DIR}/${package}"
-    nosetests "${BASE_DIR}/${package}"
+    pep8 ${PEP8_OPTS} "${SRC_DIR}/${package}"
+    pylint ${PYLINT_OPTS} "${SRC_DIR}/${package}"
+    nosetests "${BASE_DIR}"
 done
