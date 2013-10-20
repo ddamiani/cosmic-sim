@@ -17,7 +17,8 @@ The code itself can be built using make. Boost is also needed since this code re
 a random number generator provided by it. On a Linux machine installing g++ and the boost
 should be sufficient.
 
-Note that all of the executables were compiled with g++ on an x86 Linux machine. I did import a
+Note that all of the executables were compiled with g++ on an x86 Linux machine. I have
+tested this code in OSX as well, and it builds fine using either gcc or clang. I did import a
 Linux/Unix specific header ("sys/time.h"), which allowed me to return the time since epoch in
 microseconds. That was used as part of the seed for the random number generators. What this means is
 that the source would need to be modified in order to compiled in Windows.
@@ -37,7 +38,7 @@ particles that "range out" of the atmosphere can also be accessed directly).
 themselves, only effects printing to the screen, the final positions of "dead" particles is still
 accessible).
 
-Example: *./c_mc.out 10000 22.4 0* -> runs a simulation of a 10 GeV initial photon being sampled at 22.4 radiation
+Example: *./c_mc 10000 22.4 0* -> runs a simulation of a 10 GeV initial photon being sampled at 22.4 radiation
 lengths from the top of the sky with full printing verbosity.
 
 The function prints out info on each particle at each step through the main loop to stdout. The program

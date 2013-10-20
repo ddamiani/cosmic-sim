@@ -14,22 +14,23 @@ Build Instructions
 The code itself can be built using make. Boost is also needed since this code relies on a
 random number generator provided by it. On a Linux machine installing g++ and the boost
 should be sufficient. The make file for this version is very similar to the one for the
-original. There is one executable file built *cosmic-sim.out*.
+original. There is one executable file built *cosmic-sim*.
 
-Note that all of the executables were compiled with g++ on an x86 Linux machine. I did import
+Note that all of the executables were compiled with g++ on an x86 Linux machine. I have
+tested this code in OSX as well, and it builds fine using either gcc or clang. I did import
 a Linux/Unix specific header ("sys/time.h"), which allowed me to return the time since epoch
 in microseconds. That was used as part of the seed for the random number generators. What this
 means is that the source would need to be modified in order to compiled in Windows.
 
 
-cosmic-sim.out
---------------
+cosmic-sim
+----------
 
 This version works very similarly to the *c_mc_np* executable of the original C++ version.
 The input pattern is as follows:
 
 ```
-cosmic-sim.out [-h] ENERGY POSITION COUNT [SEED]
+cosmic-sim [-h] ENERGY POSITION COUNT [SEED]
 ```
 
 There are three required position input parameters:
@@ -50,7 +51,7 @@ Optional Parameters:
 The final output displays both the number of charged and the number neutral particles detected passing
 through the sample point averaged over the runs. It also estimates the errors based on the spread.
 
-Example: *target/cosmic-sim.out 30000 7 10000* -> runs a simulation of a 30 GeV initial photon
+Example: *target/cosmic-sim 30000 7 10000* -> runs a simulation of a 30 GeV initial photon
 being sampled at 7 radiation lengths from the top of the sky. The simulation is repeated 10000 times.
 
 MC Results: (Shower number = 10000)

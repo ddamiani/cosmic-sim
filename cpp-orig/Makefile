@@ -1,3 +1,6 @@
+# Defaults to g++ for the c++ compiler if CXX not set
+CXX?=gcc
+
 SRC_DIR = src
 INCLUDES = include
 TARGET = target
@@ -11,13 +14,16 @@ OBJ_NON = $(SRC_NON:$(SRC_DIR)/%.cpp=$(TARGET)/%.o)
 OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(TARGET)/%.o)
 
 DEPS = $(OBJ:.o=.d)
-EXE = $(SRC_MAIN:$(SRC_DIR)/%.cpp=$(TARGET)/%.out)
+EXE = $(SRC_MAIN:$(SRC_DIR)/%.cpp=$(TARGET)/%)
 
 CXXFLAGS = -I$(INCLUDES)
+ifneq ($(CXX),g++)
+	CXXFLAGS += -Wno-gnu
+endif
 
 all: $(TARGET) $(OBJ) $(EXE)
 
-%.out: %.o $(OBJ_NON)
+%: %.o $(OBJ_NON)
 	$(CXX) $^ -o $@
 
 $(TARGET)/%.o: $(SRC_DIR)/%.cpp
