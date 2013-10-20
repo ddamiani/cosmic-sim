@@ -62,26 +62,13 @@ Some example numbers derived from this version of the simulation.
 Charged Particles
 -----------------
 
-<table border=1>
-  <tr>
-    <th>Energy (GeV)</th><th>Shower Max (RL(km))</th><th>Particles at S\_Max</th><th>Num Part at 22.4 RL (4km)</th>
-  </tr>
-  <tr>
-    <td>10</td><td>5.75 RL (15.9km)</td><td>48.06&plusmn;0.17</td><td>0.049&plusmn;0.005</td>
-  </tr>
-  <tr>
-    <td>30</td><td>7 RL (15km)</td><td>131.96&plusmn;0.38</td><td>0.49&plusmn;0.03</td>
-  </tr>
-  <tr>
-    <td>100</td><td>8 RL (14.3km)</td><td>403.42&plusmn;1.02</td><td>3.81&plusmn;0.10</td>
-  </tr>
-  <tr>
-    <td>300</td><td>9.5 RL (13.2km)</td><td>1131&plusmn;2.3</td><td>25.69&plusmn;0.49</td>
-  </tr>
-  <tr>
-    <td>1000</td><td>10.5 RL (12.5km)</td><td>3548&plusmn;6.8</td><td>181.09&plusmn;2.41</td>
-  </tr>
-<table>
+| Energy (GeV) | Shower Max (RL(km)) | Particles at S\_Max | Num Part at 22.4 RL (4km) |
+|--------------|:-------------------:|:-------------------:|:-------------------------:|
+| 10           |  5.75 RL (15.9km)   |   48.06&plusmn;0.17 |   0.049&plusmn;0.005      |
+| 30           |  7 RL (15km)        |  131.96&plusmn;0.38 |   0.49&plusmn;0.03        |
+| 100          |  8 RL (14.3km)      |  403.42&plusmn;1.02 |   3.81&plusmn;0.10        |
+| 300          |  9.5 RL (13.2km)    | 1131&plusmn;2.3     |  25.69&plusmn;0.49        |
+| 1000         | 10.5 RL (12.5km)    | 3548&plusmn;6.8     | 181.09&plusmn;2.41        |
 
 * Rad Lengths values measured from top of the atmosphere = 0 (so surface = 28) , and km values
 measured in height from the surface.
@@ -91,26 +78,13 @@ measured in height from the surface.
 Neutral Particles
 -----------------
 
-<table border=1>
-  <tr>
-    <th>Energy (GeV)</th><th>Shower Max (RL(km))</th><th>Particles at S\_Max</th><th>Num Part at 22.4 RL (4km)</th>
-  </tr>
-  <tr>
-    <td>10</td><td>5.75 RL (15.9km)</td><td>26.19&plusmn;0.08</td><td>0.021&plusmn;0.002</td>
-  </tr>
-  <tr>
-    <td>30</td><td>7 RL (15km)</td><td>71.21&plusmn;0.18</td><td>0.21&plusmn;0.01</td>
-  </tr>
-  <tr>
-    <td>100</td><td>8 RL (14.3km)</td><td>221.61&plusmn;0.50</td><td>1.75&plusmn;0.05</td>
-  </tr>
-  <tr>
-    <td>300</td><td>9.5 RL (13.2km)</td><td>616.05&plusmn;1.14</td><td>11.75&plusmn;0.24</td>
-  </tr>
-  <tr>
-    <td>1000</td><td>10.5 RL (12.5km)</td><td>1948&plusmn;3.3</td><td>84.70&plusmn;1.19</td>
-  </tr>
-<table>
+| Energy (GeV) | Shower Max (RL(km)) | Particles at S\_Max | Num Part at 22.4 RL (4km) |
+|--------------|:-------------------:|:-------------------:|:-------------------------:|
+| 10           |  5.75 RL (15.9km)   |   26.19&plusmn;0.08 |   0.021&plusmn;0.002      |
+| 30           |  7 RL (15km)        |  71.21&plusmn;0.18  |   0.21&plusmn;0.01        |
+| 100          |  8 RL (14.3km)      |  221.61&plusmn;0.50 |   1.75&plusmn;0.05        |
+| 300          |  9.5 RL (13.2km)    | 616.05&plusmn;1.14  |  11.75&plusmn;0.24        |
+| 1000         | 10.5 RL (12.5km)    | 1948&plusmn;3.3     | 84.70&plusmn;1.19         |
 
 * Rad Lengths values measured from top of the atmosphere = 0 (so surface = 28) , and km values
 measured in height from the surface.
