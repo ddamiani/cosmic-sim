@@ -49,11 +49,11 @@ def get_args():
 
     parser.add_argument(
         '-p',
-        '--print-freq',
-        metavar='PRINT_FREQUENCY',
+        '--print',
+        metavar='PRINT',
         type=int,
         default=1000,
-        help='Sets the frequency at which progress is reported (default: 1000).'
+        help='Sets the frequency at which progress is reported (default: %(default)d).'
     )
 
     parser.add_argument(
@@ -66,12 +66,12 @@ def get_args():
 
 
 def main():
-
     args = get_args()
     try:
         print 'I ran'
     except KeyboardInterrupt:
         return 1
+
 
 if __name__ == '__main__':
     main()
