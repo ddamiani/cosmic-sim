@@ -1,15 +1,15 @@
-class Particle:
+class Particle(object):
     """
     A class representing a particle
     """
 
     def __init__(self,
-                energy,
-                position,
-                rad_length,
-                term_dist,
-                parent=None,
-                results=None):
+                 energy,
+                 position,
+                 rad_length,
+                 term_dist,
+                 parent=None,
+                 results=None):
         self.energy = energy
         self.position = position
         self.rad_length = rad_length

@@ -1,7 +1,4 @@
-#!/usr/bin/python
-
-# default to floating point division
-from __future__ import division
+#!/usr/bin/python3
 
 # normal imports
 from argparse import ArgumentParser
@@ -43,7 +40,7 @@ def get_args():
         '--seed',
         metavar='SEED',
         type=int,
-        help='fix the seed of the random number generator to the value '
+        help='fix the seed of the random.py number generator to the value '
              'specified (defaults to the timestamp at up).'
     )
 
@@ -68,7 +65,7 @@ def get_args():
 def main():
     args = get_args()
     try:
-        print 'I ran'
+        print('I ran')
     except KeyboardInterrupt:
         return 1
 
