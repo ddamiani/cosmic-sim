@@ -3,6 +3,10 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd -P)"
 CONFIG_FILE="${SCRIPT_DIR}/config_venv.sh"
+# Set the venv command if one isn't passed
+if [ -z "${VENV_CMD}" ]; then
+    VENV_CMD="virtualenv"
+fi
 if [ -f "${CONFIG_FILE}" ]; then
     source "${CONFIG_FILE}"
 else
@@ -11,7 +15,7 @@ else
 fi
 
 # check if virtualenv is installed
-if ! hash virtualenv 2>/dev/null; then
+if ! hash "${VENV_CMD}" 2>/dev/null; then
     echo "Virtualenv is not installed!"
     exit 1
 fi
@@ -31,7 +35,7 @@ fi
 # setup the virtualenv and install the package
 set -e
 cd -- "${BASE_DIR}"
-virtualenv ${ENV_OPTS} "${ENV_NAME}"
+"${VENV_CMD}" ${ENV_OPTS} "${ENV_NAME}"
 source "${ENV_NAME}/bin/activate"
 # install pylint and pep8 in venv
 pip install pep8 pylint nose
