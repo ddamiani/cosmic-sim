@@ -4,9 +4,13 @@ import com.ddamiani.cosmicsim.particle.Particle;
 import com.ddamiani.cosmicsim.particle.Photon;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
+
+import java.io.*;
+import java.util.*;
 
 /**
  * The basic command line interface to run the Java version of the cosmic ray sim
@@ -93,37 +97,57 @@ public final class SimulationMain {
      * @param args Input parameters
      */
     public static void cliParse(String... args) throws ArgumentParserException {
-        ArgumentParser parser = ArgumentParsers.newArgumentParser("cosmic-sim")
+        // Read in the program and version number - values populated by Maven
+        final String defaultVersionNum = "unknown";
+        final String defaultProgName = "cosmic-sim";
+        String versionNum;
+        String progName;
+        Properties config = new Properties();
+        try {
+            config.load(SimulationMain.class.getResourceAsStream("/version.properties"));
+            progName = config.getProperty("name", defaultProgName);
+            versionNum = config.getProperty("version", defaultVersionNum);
+        } catch (IOException | NullPointerException e) {
+            progName = defaultProgName;
+            versionNum = defaultVersionNum;
+        }
+
+        ArgumentParser parser = ArgumentParsers.newArgumentParser(progName)
                 .defaultHelp(true)
+                .version("${prog} " + versionNum)
                 .description("A quick and dirty simulation of a cosmic ray shower.");
 
         parser.addArgument("energy")
                 .metavar("ENERGY")
                 .type(Double.class)
-                .help("The initial energy of the incoming photon in MeV");
+                .help("the initial energy of the incoming photon in MeV");
 
         parser.addArgument("position")
                 .metavar("POSITION")
                 .type(Double.class)
-                .help("The position in radiation lengths from the top of the atmosphere at which to sample the shower");
+                .help("the position in radiation lengths from the top of the atmosphere at which to sample the shower");
 
         parser.addArgument("count")
                 .metavar("COUNT")
                 .type(Integer.class)
-                .help("The number of times to run the shower simulation");
+                .help("the number of times to run the shower simulation");
 
         parser.addArgument("-s", "--seed")
                 .metavar("SEED")
                 .type(Long.class)
                 .setDefault(System.currentTimeMillis())
-                .help("This option sets a specific seed for the simulation");
+                .help("this option sets a specific seed for the simulation");
 
         parser.addArgument("-p", "--print")
                 .dest("print_frequency")
                 .metavar("PRINT")
                 .type(Integer.class)
                 .setDefault(printFrequency)
-                .help("This option sets the frequency at which progress is reported");
+                .help("this option sets the frequency at which progress is reported");
+
+        parser.addArgument("--version")
+                .action(Arguments.version())
+                .help("show program's version number and exit");
 
         Namespace ns = parser.parseArgs(args);
 

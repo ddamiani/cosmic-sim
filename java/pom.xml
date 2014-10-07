@@ -16,6 +16,14 @@
     </properties>
 
     <build>
+        <!-- Needed so that Maven makes the necessary substitutions in the version properties file -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <!-- Set the particular jdk version to compile for -->
             <plugin>
@@ -32,7 +40,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.4.1</version>
                 <executions>
                     <execution>
                         <id>make-my-jar-with-dependencies</id>
