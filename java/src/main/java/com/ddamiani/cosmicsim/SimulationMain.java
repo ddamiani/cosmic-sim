@@ -3,13 +3,10 @@ package com.ddamiani.cosmicsim;
 import com.ddamiani.cosmicsim.particle.Particle;
 import com.ddamiani.cosmicsim.particle.Photon;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
+import net.sourceforge.argparse4j.ArgumentParsers;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.Namespace;
 
 /**
  * The basic command line interface to run the Java version of the cosmic ray sim
@@ -53,12 +50,6 @@ public final class SimulationMain {
 
     private static int printFrequency = 1000;
 
-    private static void printUsage(Options options) {
-        final String spacer = "************************************************************";
-        final HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("cosmic-sim [-h]", spacer, options, "", true);
-    }
-
     private static void printOutputLine(String header, double mean, double error) {
         System.out.format(" %-8s %12.3f \u00B1 %.3f\n", header, mean, error);
     }
@@ -97,109 +88,55 @@ public final class SimulationMain {
     }
 
     /**
-     * Returns the options for displaying help info.
-     * <p/>
-     * Note that suppress 'static-access' warnings are on because the apache commons is doing
-     * some uncool things...
-     *
-     * @return the help option set
-     */
-    @SuppressWarnings("static-access")
-    private static Options getHelpOpts() {
-        final Options helpOptions = new Options();
-        helpOptions.addOption(OptionBuilder
-                .withDescription("Displays help information")
-                .withLongOpt("help")
-                .create('h'));
-
-        return helpOptions;
-    }
-
-    /**
-     * Returns the main options set.
-     * <p/>
-     * Note that suppress 'static-access' warnings are on because the apache commons is doing
-     * some uncool things...
-     *
-     * @return the main option set
-     */
-    @SuppressWarnings("static-access")
-    private static Options getMainOpts() {
-        final Options mainOptions = new Options();
-        mainOptions.addOption(OptionBuilder.withArgName("ENERGY")
-                .isRequired(true)
-                .hasArg()
-                .withDescription("The initial energy of the incoming photon in MeV")
-                .withLongOpt("energy")
-                .create('e'));
-        mainOptions.addOption(OptionBuilder.withArgName("POSITION")
-                .isRequired(true)
-                .hasArg()
-                .withDescription("The position in radiation lengths at which to sample the shower")
-                .withLongOpt("position")
-                .create('p'));
-        mainOptions.addOption(OptionBuilder.withArgName("COUNT")
-                .isRequired(true)
-                .hasArg()
-                .withDescription("The number of times to run the shower simulation")
-                .withLongOpt("count")
-                .create('c'));
-        mainOptions.addOption(OptionBuilder.withArgName("SEED")
-                .hasArg()
-                .withDescription("This option sets a specific seed for the simulation")
-                .withLongOpt("seed")
-                .create('s'));
-        mainOptions.addOption(OptionBuilder.withArgName("PRINT FREQUENCY")
-                .hasArg()
-                .withDescription("This option sets the frequency at which progress is reported")
-                .withLongOpt("print-freq")
-                .create('f'));
-
-        return mainOptions;
-    }
-
-    /**
      * Parses the cli commands.
      *
      * @param args Input parameters
      */
-    public static void cliParse(String... args) throws ParseException {
+    public static void cliParse(String... args) throws ArgumentParserException {
+        ArgumentParser parser = ArgumentParsers.newArgumentParser("cosmic-sim")
+                .defaultHelp(true)
+                .description("A quick and dirty simulation of a cosmic ray shower.");
 
-        final Options helpOptions = getHelpOpts();
-        final Options mainOptions = getMainOpts();
+        parser.addArgument("energy")
+                .metavar("ENERGY")
+                .type(Double.class)
+                .help("The initial energy of the incoming photon in MeV");
 
-        final CommandLineParser commandLineParser = new PosixParser();
-        CommandLine commandLine = commandLineParser.parse(helpOptions, args, true);
-        if (commandLine.hasOption('h')) {
-            printUsage(mainOptions);
-            return;
-        }
+        parser.addArgument("position")
+                .metavar("POSITION")
+                .type(Double.class)
+                .help("The position in radiation lengths from the top of the atmosphere at which to sample the shower");
 
-        commandLine = commandLineParser.parse(mainOptions, args, true);
+        parser.addArgument("count")
+                .metavar("COUNT")
+                .type(Integer.class)
+                .help("The number of times to run the shower simulation");
 
-        if (commandLine.hasOption('s')) {
-            RandomNumberHelper.setSeed(Long.parseLong(commandLine.getOptionValue('s')));
-        } else {
-            RandomNumberHelper.setSeed(System.currentTimeMillis());
-        }
+        parser.addArgument("-s", "--seed")
+                .metavar("SEED")
+                .type(Long.class)
+                .setDefault(System.currentTimeMillis())
+                .help("This option sets a specific seed for the simulation");
 
-        if (commandLine.hasOption('f')) {
-            printFrequency = Integer.parseInt(commandLine.getOptionValue('f'));
-        }
+        parser.addArgument("-p", "--print")
+                .dest("print_frequency")
+                .metavar("PRINT")
+                .type(Integer.class)
+                .setDefault(printFrequency)
+                .help("This option sets the frequency at which progress is reported");
 
-        runSimulations(Integer.parseInt(commandLine.getOptionValue('c')),
-                Double.parseDouble(commandLine.getOptionValue('e')),
-                Double.parseDouble(commandLine.getOptionValue('p')));
+        Namespace ns = parser.parseArgs(args);
+
+        RandomNumberHelper.setSeed(ns.getLong("seed"));
+        printFrequency = ns.get("print_frequency");
+        runSimulations(ns.getInt("count"), ns.getDouble("energy"), ns.getDouble("position"));
     }
 
     public static void main(String[] args) {
         try {
             cliParse(args);
-        } catch (ParseException e) {
-            System.err.println(e);
-            System.exit(1);
-        } catch (NumberFormatException ne) {
-            System.err.println("Invalid input parameter type: " + ne);
+        } catch (ArgumentParserException e) {
+            e.getParser().handleError(e);
             System.exit(1);
         }
     }
