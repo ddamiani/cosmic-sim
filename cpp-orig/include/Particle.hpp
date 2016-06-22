@@ -35,7 +35,7 @@ class Particle {
   double samp1; //sample point 1 - units of rad lengths
   double samp1_e; //energy at sample point 1
   bool samp1_pass; //flags true if the particle hasn't been sampled and was created before sample point
-  static const double ENDP = 28;  //the surface
+  static const double ENDP;  //the surface
 
   boost::mt19937 & m_gen;
 

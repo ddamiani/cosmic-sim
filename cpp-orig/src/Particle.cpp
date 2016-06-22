@@ -3,6 +3,8 @@
 using boost::mt19937;
 using boost::uniform_01;
 
+const double Particle::ENDP = 28;
+
 Particle::Particle(mt19937 & gen) :
   m_gen(gen)
 {
