@@ -13,7 +13,9 @@ SRC_DIR="${BASE_DIR}/src"
 ENV_NAME="${BASE_DIR}/.venv"
 
 # Options to pass to the virtual env
-ENV_OPTS="--prompt=(cosmicsim-env)"
+ENV_OPTS_OLD="--prompt=(cosmicsim-env)"
+# Options to pass to the virtual env
+ENV_OPTS_NEW=""
 
 # Command to use when setting up the cosmic sim package (install, develop)
 SETUP_CMD="develop"
@@ -31,7 +33,8 @@ venv_var_cleanup() {
     unset BASE_DIR
     unset SRC_DIR
     unset ENV_NAME
-    unset ENV_OPTS
+    unset ENV_OPTS_OLD
+    unset ENV_OPTS_NEW
     unset SETUP_CMD
     unset PACKAGES
     unset PEP8_OPTS
