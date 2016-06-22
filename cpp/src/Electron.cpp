@@ -4,6 +4,10 @@
 #include "RandomMT.h"
 #include "ResultStore.h"
 
+const double Electron::ELECTRON_RAD_LENGTH = 0.28;
+const double Electron::ELECTRON_TERM_DECAY_LENGTH = 1.0;
+const double Electron::ELECTRON_TERM_DECAY_ENERGY = 100.0;
+
 Electron::Electron(double energy, double position,
                    Particle* parent, ResultStore *results) :
   Particle(energy, position, ELECTRON_RAD_LENGTH,

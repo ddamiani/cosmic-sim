@@ -14,9 +14,9 @@ class Electron : public Particle {
    virtual Particle::DecayType Decay();
    virtual void CountResult();
 
-   static const double ELECTRON_RAD_LENGTH =  0.28;
-   static const double ELECTRON_TERM_DECAY_LENGTH = 1.0;
-   static const double ELECTRON_TERM_DECAY_ENERGY = 100.0;
+   static const double ELECTRON_RAD_LENGTH;
+   static const double ELECTRON_TERM_DECAY_LENGTH;
+   static const double ELECTRON_TERM_DECAY_ENERGY;
 };
 
 #endif

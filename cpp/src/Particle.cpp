@@ -5,6 +5,9 @@
 
 #include <cstddef>
 
+const double Particle::END_ENERGY = 0.;
+const double Particle::END_POSITION = 28.;
+
 Particle::Particle(double energy, double position, double rad_length, double term_dist,
                    Particle* parent, ResultStore* results) :
   m_energy(energy),

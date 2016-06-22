@@ -4,6 +4,10 @@
 #include "RandomMT.h"
 #include "ResultStore.h"
 
+const double Photon::PHOTON_RAD_LENGTH = 9.0 / 7.0;
+const double Photon::PHOTON_TERM_DECAY_LENGTH = 0.0;
+const double Photon::PHOTON_TERM_DECAY_ENERGY = 10.0;
+
 Photon::Photon(double energy, double position,
                Particle* parent, ResultStore *results) :
   Particle(energy, position, PHOTON_RAD_LENGTH,

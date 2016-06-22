@@ -1,5 +1,7 @@
 #include "ResultStore.h"
 
+const double ResultStore::DEFAULT_SAMPLE_POINT = 28.0;
+
 ResultStore::ResultStore() :
   m_sample_point(DEFAULT_SAMPLE_POINT),
   m_num_charged(0),

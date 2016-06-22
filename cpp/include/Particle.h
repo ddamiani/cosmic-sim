@@ -34,8 +34,8 @@ class Particle {
   virtual DecayType Decay() = 0;
   virtual void CountResult() = 0;
 
-  static const double END_ENERGY = 0.;
-  static const double END_POSITION = 28.;
+  static const double END_ENERGY;
+  static const double END_POSITION;
 
   double m_energy;
   double m_position;

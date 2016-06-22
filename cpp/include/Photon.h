@@ -14,9 +14,9 @@ class Photon : public Particle {
    virtual Particle::DecayType Decay();
    virtual void CountResult();
 
-   static const double PHOTON_RAD_LENGTH =  9.0 / 7.0;
-   static const double PHOTON_TERM_DECAY_LENGTH = 0.0;
-   static const double PHOTON_TERM_DECAY_ENERGY = 10.0;
+   static const double PHOTON_RAD_LENGTH;
+   static const double PHOTON_TERM_DECAY_LENGTH;
+   static const double PHOTON_TERM_DECAY_ENERGY;
 };
 
 #endif

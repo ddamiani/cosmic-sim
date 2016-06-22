@@ -20,7 +20,7 @@ class ResultStore {
 
  private:
 
-  static const double DEFAULT_SAMPLE_POINT = 28.0;
+  static const double DEFAULT_SAMPLE_POINT;
 
   const double m_sample_point;
   int m_num_charged;
